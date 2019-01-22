@@ -20,6 +20,14 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <style>
+     .text-focus-in{-webkit-animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both;animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both}
+      @-webkit-keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}
+
+    </style>
+
 	</head>
 	<body>
 		<div class="reveal">
@@ -29,7 +37,8 @@
 					<h3>Lucas Santos</h3>
 				</section>
 				<section>
-					<p>Reveal JS is a framework for doing slides presentations with plain html and JS</p>
+					  <p>Reveal JS is a framework for doing slides presentations with plain html and JS</p>
+            <p>It is an alternative to presentation softwares</p>
 				</section>
 				<section>
 					<p>It:</p>
@@ -38,30 +47,52 @@
 						<li>Has touch support</li>
 						<li>Support Markdown</li>
 						<li>Only requires a text editor (it's html)</li>
-						<li>Version control</li>
-						<li>MIT License</li>
+						<li>Allow Version control</li>
+						<li>Licensed under MIT</li>
+						<li>Lots of features (see official repo)</li>
 					</ul>
 				</section>
 				<section>
 					<h3>Online with github in one minute</h3>
-					<p>Fork git@github.com:hakimel/reveal.js.git</p>
+					<p>Fork <i>git@github.com:hakimel/reveal.js.git</i></p>
 					<p>Enable static content on settings</p>
 					<p>Start editing index.html</p>
-					<pre><code class="html">git clone git@github.com:hakimel/reveal.js.git 
-&& cd reveal.js 
-&& git remote set-url origin git@github.com:YOUR_USER/YOUR_REPO.git 
-&& git push</code></pre>
+					<pre><code class="html">(...Ignore code before...)
+&lt;section&gt;
+  &lt;h1&gt;Presentation title&lt;/h1&gt;
+  &lt;h3&gt;Your name&lt;/h3&gt;
+&lt;/section&gt;
+&lt;section&gt;
+  &lt;h1&gt;Some really cool title&lt;/h1&gt;
+  &lt;p&gt;Some content&lt;/p&gt;
+&lt;/section&gt; </code></pre>
 				</section>
 				<section>
-					<h1>But the best (for developers) is the interaction</h1>
-					<a href="https://beothorn.github.io/apresentacaoSvgReact/">Example</a>
+					  <h2>Developers can leverage their knowledge of html/js to do awesome presentations</h2>
 				</section>
-			</div>
+        <section id="css-animation" style="top: -231px;">
+				    <h2>CSS Animations (from animista)</h2>
+            <h1 class="anim-object active" id="to-animate" style="display: none;">Animated Stuff</h1>
+				</section>
+        <section id="d3-slide" style="top: -231px;" >
+				    <h2>Using existing code (eg: Chart.js)</h2>
+            <div style="position: relative; width:20vw">
+	              <canvas id="myChart" width="400px" height="712px"></canvas>
+            </div>
+			  </section>
+        <section>
+				    <h2>Demonstrating applications live</h2>
+            <p>Ex: Using svg on react</p>
+				</section>
+	      <section>
+	          <div id="root"></div>
+        </section>
+      </div>
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
-
+    <script type="text/javascript" src="torogo.js"></script>
 		<script>
 			// More info about config & dependencies:
 			// - https://github.com/hakimel/reveal.js#configuration
@@ -77,6 +108,58 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+     Reveal.addEventListener( 'slidechanged', function( event ) {
+         let toAnimate = document.getElementById('to-animate')
+         if(event.currentSlide.id==='css-animation'){
+           toAnimate.style.removeProperty('animation')
+           toAnimate.style.animation = "text-focus-in 1s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0s 1 normal both running"
+           toAnimate.style.display = 'block'
+         }else{
+           toAnimate.style.display = 'none'
+         }
+     } );
+
+
+
+var ctx = document.getElementById("myChart").getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
 		</script>
 	</body>
 </html>
